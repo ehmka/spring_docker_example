@@ -6,6 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        classpath 'se.transmode.gradle:gradle-docker:1.1'
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
@@ -15,14 +16,16 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
+apply plugin: 'application'
+apply plugin: 'docker'
 
 
 war {
     baseName = 'spring_docker_example'
     version = '0.0.1-SNAPSHOT'
 }
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 repositories {
     mavenCentral()
@@ -49,3 +52,12 @@ eclipse {
 task wrapper(type: Wrapper) {
     gradleVersion = '1.12'
 }
+
+group = 'aglover'
+mainClassName = 'de.ehmka.hacking.springdockerexample.Application'
+
+distDocker {
+    dryRun = true
+    exposePort 8080
+}
+
